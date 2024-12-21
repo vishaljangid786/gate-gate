@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Toggle Div Visibility</title>
+    <style>
+      .toggle {
+        display: none;
+      }
+      .shadow {
+        box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
+      }
+
+      .toggle1 {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mt-20 text-2xl">
+      <h1 class="text-center font-semibold text-blue-500">For : John Doe</h1>
+      <h1 class="text-center flex w-fit mx-auto">
+        Order Id :
+        <p class="uppercase">sdgf-123x-123s-ljj3</p>
+      </h1>
+      <hr
+        class="border-none outline-none h-[2px] bg-gray-400 w-[96%] mx-auto mt-4"
+      />
+      <h1 class="text-center flex w-fit mx-auto">
+        Amount :
+        <p class="font-bold text-gray-700" id="amount">₹1204.00</p>
+      </h1>
+      <hr
+        class="border-none outline-none h-[2px] bg-gray-400 w-[96%] mx-auto mt-4"
+      />
+    </div>
+
+    <div class="flex w-[80%] mx-auto mt-10 font-bold border-b border-black">
+      <button onclick="showOnlyDiv('upiDiv')" class="flex-1 py-2 shadow">
+        UPI ID
+      </button>
+      <button onclick="showOnlyDiv('qrDiv')" class="flex-1 py-2 shadow">
+        PAY WITH QR
+      </button>
+    </div>
+
+    <!-- Divs to Show/Hide -->
+    <div id="upiDiv" class="mt-6 text-center text-lg toggle1 px-12">
+      <div
+        class=" bg-cyan-100 text-cyan-800 font-semibold mx-auto flex items-center border-2 border-cyan-500 text-xl flex gap-2 p-2"
+      >
+        <p class="text-3xl">🎉</p>
+        Win assured cashback up to Rs.200 on CRED UPI.
+      </div>
+      <h1 class="font-gray-500 text-left mt-5 font-bold text-gray-600">PAY BY ANY UPI APP</h1>
+      <p class="text-left mb-5">Choose the app installed on Your Phone.</p>
+
+      <div class="flex gap-4">
+        <div class="w-16 cursor-pointer h-16 rounded-lg border-2 flex items-center justify-center" onclick="payWithApp('googlePay')">
+          <img class="w-12 object-contain" src="https://i1.wp.com/www.aivanet.com/wp-content/uploads/2020/11/1606143674_8916958845781.png" alt="">
+        </div>
+        <div class="w-16 cursor-pointer h-16 rounded-lg border-2 flex items-center overflow-hidden justify-center" onclick="payWithApp('phonePe')">
+          <img class="w-40 h-12 scale-[1.4]" src="https://flipkartstories.blob.core.windows.net/stories/2016/11/phonepe_mainbanner2.jpg" alt="">
+        </div>
+        <div class="w-16 cursor-pointer h-16 rounded-lg border-2 flex items-center justify-center overflow-hidden" onclick="payWithApp('paytm')">
+          <img class="w-12 object-contain scale-[1.4]" src="https://static.vecteezy.com/system/resources/previews/020/190/501/original/paytm-logo-paytm-icon-free-free-vector.jpg" alt="">
+        </div>
+      </div>
+      <button class="mt-10 rounded-lg bg-blue-500 text-white w-full py-2 active:bg-blue-800">Make Payment </button>
+    </div>
+
+    <div id="qrDiv" class="mt-6 text-center text-lg toggle">
+      <p class="text-xl font-semibold ">Scan the QR Code to Pay</p>
+      <img
+        src="https://via.placeholder.com/150"
+        alt="QR Code"
+        class="mx-auto mt-4"
+      />
+    </div>
+
+    <script>
+      function showOnlyDiv(divId) {
+        // List of all toggleable div IDs
+        const allDivs = ["upiDiv", "qrDiv"];
+
+        // Loop through each div and apply appropriate classes
+        allDivs.forEach((id) => {
+          const div = document.getElementById(id);
+          if (id === divId) {
+            div.classList.remove("toggle");
+            div.classList.add("toggle1");
+          } else {
+            div.classList.remove("toggle1");
+            div.classList.add("toggle");
+          }
+        });
+      }
+
+      function payWithApp(app) {
+        // Check for the platform and try to open the respective app or show alert
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
+        const isDesktop = !isMobile;
+
+        if (isDesktop) {
+          alert('This payment option is only available on mobile devices. Please use a mobile device to proceed.');
+        } else {
+          const upiID = '8302660875@axl'; // Your UPI ID
+
+          switch (app) {
+            case 'googlePay':
+              if (navigator.share) {
+                window.location.href = `upi://pay?pa=${upiID}&pn=Your-Name&mc=1234&tid=1234567890&url=http://yourwebsite.com`;
+              } else {
+                alert('Google Pay app is not installed. Please install Google Pay.');
+              }
+              break;
+            case 'phonePe':
+              if (navigator.share) {
+                window.location.href = `upi://pay?pa=${upiID}&pn=Your-Name&mc=1234&tid=1234567890&url=http://yourwebsite.com`;
+              } else {
+                alert('PhonePe app is not installed. Please install PhonePe.');
+              }
+              break;
+            case 'paytm':
+              if (navigator.share) {
+                window.location.href = `upi://pay?pa=${upiID}&pn=Your-Name&mc=1234&tid=1234567890&url=http://yourwebsite.com`;
+              } else {
+                alert('Paytm app is not installed. Please install Paytm.');
+              }
+              break;
+            default:
+              alert('Unsupported payment method.');
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
